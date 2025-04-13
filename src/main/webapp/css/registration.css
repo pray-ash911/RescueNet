@@ -1,0 +1,142 @@
+@charset "UTF-8";
+/* RescueNet Theme - Emergency Response Styling */
+:root {
+  --rescue-red: #e53935;
+  --safety-orange: #ff7043;
+  --alert-yellow: #ffd600;
+  --medical-blue: #1565c0;
+  --calm-teal: #00838f;
+  --neutral-gray: #546e7a;
+  --light-gray: #eceff1;
+  --dark-text: #263238;
+  --shadow: rgba(0, 0, 0, 0.2);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+}
+
+body {
+  background-color: #f5f7fa;
+  background-image: linear-gradient(135deg, rgba(21, 101, 192, 0.1), rgba(229, 57, 53, 0.05));
+  background-attachment: fixed;
+  padding: 10px; /* Reduced padding */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.form-container {
+  max-width: 500px; /* Increased max-width */
+  width: 100%;
+  background-color: white;
+  padding: 20px; /* Reduced padding */
+  border-radius: 12px;
+  box-shadow: 0 8px 24px var(--shadow);
+  border-top: 4px solid var(--rescue-red);
+  position: relative;
+}
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.logo-container img {
+  max-width: 150px; /* Adjusted size */
+  height: auto;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+h1 {
+  text-align: center;
+  color: var(--medical-blue);
+  margin-bottom: 20px; /* Reduced margin */
+  font-size: 24px; /* Reduced font size */
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+h1:after {
+  content: "";
+  position: absolute;
+  width: 60px;
+  height: 3px;
+  background-color: var(--rescue-red);
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.form-group {
+  margin-bottom: 15px; /* Reduced margin */
+  position: relative;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px; /* Reduced margin */
+  font-weight: 600;
+  color: var(--dark-text);
+  font-size: 14px; /* Reduced font size */
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="tel"],
+select {
+  width: 100%;
+  padding: 10px; /* Reduced padding */
+  border: 1px solid #cfd8dc;
+  border-radius: 6px;
+  font-size: 14px; /* Reduced font size */
+  transition: all 0.3s;
+  background-color: #f9fafc;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+select:focus {
+  outline: none;
+  border-color: var(--medical-blue);
+  box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.15);
+  background-color: white;
+}
+
+input[type="checkbox"] {
+  margin-right: 10px;
+  transform: scale(1.3);
+  accent-color: var(--medical-blue);
+}
+
+small {
+  color: var(--neutral-gray);
+  font-size: 14px;
+  display: inline-block;
+  margin-left: 5px;
+}
+
+button {
+  background-color: var(--rescue-red);
+  color: white;
+  border: none;
+  padding: 10px; /* Reduced padding */
+  width: 100%;
+  font-size: 16px; /* Reduced font size */
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: all 0.3s;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 6px rgba(229, 57, 53, 0.25);

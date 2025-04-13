@@ -1,0 +1,112 @@
+@charset "UTF-8";
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f4f8;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Header styling */
+header {
+    text-align: center;
+    padding: 25px 20px;
+    background-color: #0288d1;
+    color: white;
+}
+
+header h1 {
+    font-size: 2em;
+    margin-bottom: 8px;
+}
+
+header p {
+    font-size: 1em;
+}
+
+/* Main container */
+.portfolio-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* Profile details section */
+.profile-details {
+    background-color: white;
+    padding: 20px;
+    border-radius: 6px;
+    box_shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+.profile-details h2 {
+    font-size: 1.6em;
+    color: #0288d1;
+    margin-bottom: 15px;
+}
+
+.profile-details p {
+    font-size: 1em;
+    margin: 8px 0;
+}
+
+.profile-details .label {
+    font-weight: bold;
+    color: #666;
+}
+
+.profile-details .edit-link {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 8px 15px;
+    background-color: #0288d1;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.profile-details .edit-link:hover {
+    background-color: #01579b;
+}
+
+/* User actions section */
+.user-actions {
+    background-color: white;
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.user-actions h2 {
+    font-size: 1.6em;
+    color: #0288d1;
+    margin-bottom: 15px;
+}
+
+.user-actions ul {
+    list-style: none;
+}
+
+.user-actions li {
+    margin: 10px 0;
+}
+
+.user-actions a {
+    color: #0288d1;
+    text-decoration: none;
+    font-size: 1em;
+}
+
+.user-actions a:hover {
+    text-decoration: underline;
+    color: #01579b;
+}}

@@ -1,0 +1,226 @@
+@charset "UTF-8";
+/* RescueNet Theme - Emergency Response Styling */
+:root {
+  --rescue-red: #e53935;
+  --safety-orange: #ff7043;
+  --alert-yellow: #ffd600;
+  --medical-blue: #1565c0;
+  --calm-teal: #00838f;
+  --neutral-gray: #546e7a;
+  --light-gray: #eceff1;
+  --dark-text: #263238;
+  --shadow: rgba(0, 0, 0, 0.2);
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #f5f5f5;  /* Replaced gradient with light gray */
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background elements */
+body:before, body:after {
+  content: "";
+  position: absolute;
+  background-color: rgba(10, 77, 184, 0.05);  /* Made very subtle */
+  border-radius: 50%;
+  z-index: 0;
+}
+
+body:before {
+  width: 300px;
+  height: 300px;
+  top: -100px;
+  right: -100px;
+}
+
+body:after {
+  width: 400px;
+  height: 400px;
+  bottom: -200px;
+  left: -200px;
+}
+
+/* Login container */
+.login-container {
+  background-color: white;  /* Changed to solid white */
+  border-radius: 20px;
+  padding: 40px;
+  width: 400px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);  /* Lighter shadow */
+  position: relative;
+  z-index: 10;
+}
+
+/* Logo styling */
+.logo-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo-container img {
+  max-width: 150px;
+  height: auto;
+}
+
+/* Main heading */
+h1 {
+  color: #062c66;  /* Changed to dark blue */
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+/* Form elements */
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  color: #333;  /* Changed to dark gray */
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;  /* Added border */
+  background-color: #f9f9f9;  /* Slightly off-white background */
+  font-size: 14px;
+}
+
+button {
+  background-color: 255, 0, 0;
+  color: white;
+  padding: 12px;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #051f49;
+}
+
+/* Message styling */
+.error-message {
+  color: #ff6b6b;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.success-message {
+  color: #51cf66;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Forgot password link */
+.forgot-password {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.forgot-password a {
+  color: #062c66;  /* Changed to dark blue */
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline;
+}
+
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);  /* Changed to light gray */
+}
+
+.divider span {
+  padding: 0 10px;
+  color: #666;  /* Changed to medium gray */
+  font-size: 14px;
+}
+
+/* Social media icons */
+.social-media {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.social-media a {
+  background-color: #f5f5f5;  /* Changed to light gray */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+
+.social-media a:hover {
+  transform: scale(1.1);
+}
+
+.social-media i {
+  font-size: 20px;
+}
+
+.fa-facebook {
+  color: #1877F2;
+}
+
+.fa-twitter {
+  color: #1DA1F2;
+}
+
+.fa-instagram {
+  color: #E4405F;
+}
+
+/* Registration link */
+.register-link {
+  text-align: center;
+  margin-top: 20px;
+  color: #333;  /* Changed to dark gray */
+  font-size: 14px;
+}
+
+.register-link a {
+  color: #062c66;  /* Changed to dark blue */
+  text-decoration: underline;
+}
