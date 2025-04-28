@@ -1,0 +1,222 @@
+/* ================================================== */
+/*                 reservations.css                   */
+/*    Styles for the RescueNet Reservation Management */
+/* ================================================== */
+
+/* --- Use variables from admin_dashboard.css --- */
+/* Assuming admin_dashboard.css is loaded first and defines :root variables */
+
+/* --- Page Specific Content Area --- */
+.page-content.reservation-content {
+    padding: 30px 40px;
+}
+
+/* --- Card Style Container (Reused) --- */
+.card-style {
+     background-color: var(--card-bg, #ffffff);
+     border-radius: var(--border-radius, 6px);
+     padding: 25px 30px;
+     margin-bottom: 30px;
+     box-shadow: var(--card-shadow, 0 2px 8px rgba(0,0,0,0.08));
+}
+.card-style h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--medium-gray, #e9ecef);
+    font-size: 1.5em;
+    color: var(--heading-color, #2c3e50);
+}
+
+/* --- Reservation Form --- */
+.reservation-form {
+    /* Add specific styles if needed */
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Adjust min width as needed */
+    gap: 20px 30px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.95em;
+    color: var(--text-color, #34495e);
+}
+
+.form-group input[type="date"],
+.form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--input-border-color, #ccc);
+    border-radius: var(--border-radius, 6px);
+    font-size: 1em;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background-color: #fff;
+    color: var(--text-color);
+    height: 40px; /* Consistent height */
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--input-focus-border-color, var(--secondary-color, #0275d8));
+    box-shadow: 0 0 0 3px rgba(2, 117, 216, 0.15);
+}
+
+.form-actions {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--medium-gray, #eee);
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+/* --- Reusable Button Styles (Copied for completeness, move to global if preferred) --- */
+.button { display: inline-flex; align-items: center; padding: 10px 20px; border: none; border-radius: var(--border-radius, 6px); cursor: pointer; font-weight: 600; font-size: 1em; text-decoration: none; transition: background-color 0.2s ease, opacity 0.2s ease; line-height: 1.4; }
+.button i { margin-right: 8px; }
+.button-primary { background-color: var(--button-bg, var(--secondary-color, #0275d8)); color: white; }
+.button-primary:hover { background-color: var(--button-hover-bg, #025aa5); }
+.button-secondary { background-color: var(--dark-gray, #6c757d); color: white; }
+.button-secondary:hover { background-color: #5a6268; }
+
+/* Styles for smaller buttons in table */
+.button-small {
+    padding: 5px 10px;
+    font-size: 0.85em;
+}
+.button-small i {
+    margin-right: 4px; /* Less space for icon */
+}
+.button-edit {
+    background-color: var(--available-color, #5cb85c); /* Green */
+    color: white;
+}
+.button-edit:hover {
+    background-color: #4cae4c; /* Darker green */
+}
+.button-delete {
+     background-color: var(--primary-color, #d9534f); /* Red */
+     color: white;
+     border: none; /* Ensure no default button border */
+}
+.button-delete:hover {
+    background-color: #c9302c; /* Darker red */
+}
+.delete-form { /* To style the form containing delete button */
+    display: inline-block; /* Align with edit button */
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+
+/* --- Reservations Table --- */
+.table-container {
+    margin-top: 30px; /* Space above table section */
+}
+
+.table-wrapper {
+    overflow-x: auto; /* Allow horizontal scrolling on small screens */
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse; /* Remove space between borders */
+    font-size: 0.95em;
+}
+
+.data-table th,
+.data-table td {
+    border: 1px solid var(--medium-gray, #e0e0e0);
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.data-table thead th {
+    background-color: #f0f3f7; /* Light header background */
+    font-weight: 600;
+    color: var(--heading-color);
+    white-space: nowrap; /* Prevent header text wrapping */
+}
+
+.data-table tbody tr:nth-child(even) {
+    background-color: #f9fafd; /* Subtle striping */
+}
+
+.data-table tbody tr:hover {
+    background-color: #eef4fc; /* Hover effect */
+}
+
+.no-results-row td {
+    text-align: center;
+    font-style: italic;
+    color: var(--dark-gray);
+    padding: 20px;
+}
+
+/* Status Label in Table */
+.status-label {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    color: white;
+    text-transform: capitalize;
+    line-height: 1;
+    text-align: center;
+    min-width: 80px; /* Give status labels some width */
+}
+.status-pending { background-color: var(--service-color); } /* Orange */
+.status-confirmed { background-color: var(--available-color); } /* Green */
+.status-cancelled { background-color: var(--dark-gray); } /* Gray */
+.status-completed { background-color: var(--link-color); } /* Blue */
+
+
+/* Actions Cell */
+.actions-cell {
+    white-space: nowrap; /* Prevent action buttons wrapping */
+    text-align: center; /* Center actions */
+    width: 1%; /* Make column just wide enough for content */
+}
+.actions-cell > a,
+.actions-cell > form {
+    margin: 0 3px; /* Small space between actions */
+}
+
+
+/* --- Messages (Copied for completeness) --- */
+.message { padding: 12px 18px; margin-bottom: 20px; border-radius: var(--border-radius); border: 1px solid transparent; font-size: 0.95em; }
+.error-message { background-color: var(--error-bg, #f2dede); border-color: var(--error-border, #ebccd1); color: var(--error-color, #a94442); }
+.success-message { background-color: var(--success-bg, #dff0d8); border-color: var(--success-border, #d6e9c6); color: var(--success-color, #3c763d); }
+
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    .page-content.reservation-content { padding: 20px; }
+    .card-style { padding: 20px; }
+    .form-grid { grid-template-columns: 1fr; gap: 15px; } /* Stack form */
+    .data-table th, .data-table td { padding: 8px 10px; font-size: 0.9em;}
+}
+
+@media (max-width: 576px) {
+     .page-content.reservation-content { padding: 15px; }
+     .card-style { padding: 15px; }
+     .form-group input, .form-group select { padding: 8px 10px; font-size: 0.95em; }
+     .button { padding: 8px 15px; font-size: 0.95em; }
+     .form-actions { justify-content: center; }
+     .data-table { font-size: 0.85em; } /* Make table font smaller */
+     .actions-cell .button-small { padding: 4px 6px; font-size: 0.8em;} /* Smaller action buttons */
+}

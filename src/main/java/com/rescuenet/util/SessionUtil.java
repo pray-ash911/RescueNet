@@ -1,5 +1,6 @@
 package com.rescuenet.util;
 
+import com.rescuenet.model.UserModel;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -8,7 +9,8 @@ import jakarta.servlet.http.HttpSession;
  * Provides methods to set, get, remove session attributes and invalidate sessions.
  */
 public class SessionUtil {
-    
+    private static final String USER_KEY = "user";
+
     /**
      * Sets an attribute in the session.
      *
@@ -59,5 +61,29 @@ public class SessionUtil {
         if (session != null) {
             session.invalidate();
         }
+    }
+
+    /**
+     * Stores the user in the session.
+     *
+     * @param request the HttpServletRequest from which the session is obtained
+     * @param user    the UserModel to store in the session
+     */
+    public static void setUser(HttpServletRequest request, UserModel user) {
+        setAttribute(request, USER_KEY, user);
+    }
+
+    /**
+     * Retrieves the user from the session.
+     *
+     * @param request the HttpServletRequest from which the session is obtained
+     * @return the UserModel stored in the session, or null if not found or session is invalid
+     */
+    public static UserModel getUser(HttpServletRequest request) {
+        Object user = getAttribute(request, USER_KEY);
+        if (user instanceof UserModel) {
+            return (UserModel) user;
+        }
+        return null;
     }
 }

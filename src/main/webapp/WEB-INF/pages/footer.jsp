@@ -1,9 +1,11 @@
 <div id="footer">
-    <div class="social-media">
-        <a href="#"><i class="fab fa-facebook"></i></a>
-        <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-    </div>
-    
-    <p class="copyright">© 2023 RescueNet. All rights reserved.</p>
+	<div class="social-media">
+				<a href="#"><img
+					src="${pageContext.request.contextPath}/resources/images/system/facebook.svg"></a>
+				<a href="#"><img
+					src="${pageContext.request.contextPath}/resources/images/system/instagram.svg"></a>
+				<a href="#"><img
+					src="${pageContext.request.contextPath}/resources/images/system/twitter.svg"></a>
+			</div>
+	<p class="copyright">© 2023 RescueNet. All rights reserved.</p>
 </div>

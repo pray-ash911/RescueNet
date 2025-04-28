@@ -34,9 +34,9 @@
 
 		<form action="${pageContext.request.contextPath}/login" method="POST">
 			<div class="form-group">
-				<label for="username">Email</label> <input type="text" id="username"
-					name="username" placeholder="username@gmail.com" maxlength="50"
-					required>
+				<label for="username">Username</label> <input type="text"
+					id="username" name="username" placeholder="username@gmail.com"
+					maxlength="50" required>
 			</div>
 
 			<div class="form-group">

@@ -81,11 +81,10 @@ public class LoginController extends HttpServlet {
             PreparedStatement stmt = null;
             try {
                 try {
-					conn = DbConfig.getDbConnection();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+                    conn = DbConfig.getDbConnection();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
                 String updateSql = "UPDATE users SET last_login = NOW() WHERE username = ?";
                 stmt = conn.prepareStatement(updateSql);
                 stmt.setString(1, username);
@@ -105,13 +104,19 @@ public class LoginController extends HttpServlet {
             // Set session attributes
             SessionUtil.setAttribute(req, "userId", String.valueOf(userModel.getUserId()));
             SessionUtil.setAttribute(req, "username", username);
+            SessionUtil.setAttribute(req, "user", userModel); // Add UserModel to session
+
+            System.out.println("LoginController: Setting user in session - " + userModel.getFullName());
+            System.out.println("LoginController: User roleId - " + userModel.getRoleId());
 
             // Set role cookie and redirect
             if (userModel.getRoleId() == 2) { // Admin
                 CookiesUtil.addCookie(resp, "role", "admin", 5 * 30);
-                resp.sendRedirect(req.getContextPath() + "/adminDashboard");
+                System.out.println("LoginController: Redirecting to /admin for admin user");
+                resp.sendRedirect(req.getContextPath() + "/admin");
             } else { // User
                 CookiesUtil.addCookie(resp, "role", "user", 5 * 30);
+                System.out.println("LoginController: Redirecting to /home for regular user");
                 resp.sendRedirect(req.getContextPath() + "/home");
             }
         } else {
@@ -134,8 +139,8 @@ public class LoginController extends HttpServlet {
         if (loginStatus == null) {
             errorMessage = "Our server is under maintenance. Please try again later!";
         } else {
-            errorMessage = "User credential mismatch. Please try again!";
+            errorMessage = "Username and password is mismatch!";
         }
-        redirectionUtil.redirect("error", errorMessage, "WEB-INF/pages/login.jsp", req, resp);
+        redirectionUtil.redirect("error", "Username and password is mismatch!", "WEB-INF/pages/login.jsp", req, resp);
     }
 }

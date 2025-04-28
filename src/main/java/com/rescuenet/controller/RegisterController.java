@@ -71,8 +71,19 @@ public class RegisterController extends HttpServlet {
                 redirectionUtil.redirect("success", "Your account is successfully created!",
                         "WEB-INF/pages/login.jsp", req, resp);
             } else {
-                redirectionUtil.redirect("error", "Could not register your account. Please try again later!",
-                        "WEB-INF/pages/register.jsp", req, resp);
+                // Check which field caused the failure
+                boolean usernameExists = registerService.isUsernameExists(userModel.getUsername());
+                boolean emailExists = registerService.isEmailExists(userModel.getEmail());
+
+                String errorMessage;
+                if (usernameExists && emailExists) {
+                    errorMessage = "Both username and email are already registered!";
+                } else if (usernameExists) {
+                    errorMessage = "This username is already taken. Please choose a different username!";
+                } else {
+                    errorMessage = "This email is already registered. Please use a different email!";
+                }
+                redirectionUtil.redirect("error", errorMessage, "WEB-INF/pages/register.jsp", req, resp);
             }
         } catch (Exception e) {
             redirectionUtil.redirect("error", "An unexpected error occurred: " + e.getMessage(),
@@ -118,11 +129,11 @@ public class RegisterController extends HttpServlet {
         }
 
         // Encrypt password
-        String passwordHash = PasswordUtil.encrypt(username, password);
-        if (passwordHash == null) {
+        String encryptedPassword = PasswordUtil.encrypt(username, password);
+        if (encryptedPassword == null) {
             throw new Exception("Password encryption failed!");
         }
 
-        return new UserModel(username, passwordHash, roleId, fullName, email, phoneNumber, isActive);
+        return new UserModel(username, encryptedPassword, roleId, fullName, email, phoneNumber, isActive);
     }
 }

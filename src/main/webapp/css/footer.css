@@ -1,131 +1,143 @@
 @charset "UTF-8";
 
 #footer {
-    background-color: #2c3e50; /* Dark blue-gray background */
-    color: #ecf0f1; /* Light gray text */
-    padding: 30px 20px;
-    text-align: center;
-    border-top: 4px solid #e74c3c; /* Red emergency accent bar */
-    position: relative;
-    overflow: hidden;
+	background-color: #2c3e50; /* Dark blue-gray background */
+	color: #ecf0f1; /* Light gray text */
+	padding: 30px 20px;
+	text-align: center;
+	border-top: 4px solid #e74c3c; /* Red emergency accent bar */
+	position: relative;
+	overflow: hidden;
 }
 
 /* Emergency stripe effect */
 #footer::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: repeating-linear-gradient(
-        45deg,
-        #e74c3c,
-        #e74c3c 10px,
-        #27ae60 10px,
-        #27ae60 20px
-    );
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 3px;
+	background: repeating-linear-gradient(45deg, #e74c3c, #e74c3c 10px, #27ae60 10px,
+		#27ae60 20px);
 }
 
 #footer p {
-    margin-bottom: 15px;
-    font-size: 0.95em;
+	margin-bottom: 15px;
+	font-size: 0.95em;
 }
 
 #footer ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 15px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 15px;
 }
 
 #footer li {
-    display: inline-block;
-    position: relative;
+	display: inline-block;
+	position: relative;
 }
 
 #footer li:not(:last-child)::after {
-    content: "•";
-    color: #7f8c8d;
-    position: absolute;
-    right: -10px;
+	content: "•";
+	color: #7f8c8d;
+	position: absolute;
+	right: -10px;
 }
 
 #footer a {
-    text-decoration: none;
-    color: #bdc3c7;
-    font-weight: 500;
-    padding: 5px 10px;
-    transition: all 0.3s ease;
-    border-radius: 3px;
+	text-decoration: none;
+	color: #bdc3c7;
+	font-weight: 500;
+	padding: 5px 10px;
+	transition: all 0.3s ease;
+	border-radius: 3px;
 }
 
 #footer a:hover {
-    color: white;
-    background-color: rgba(231, 76, 60, 0.2); /* Semi-transparent red */
-    transform: translateY(-2px);
+	color: white;
+	background-color: rgba(231, 76, 60, 0.2); /* Semi-transparent red */
+	transform: translateY(-2px);
 }
 
 /* Emergency contact link styling */
 #footer .emergency-contact {
-    color: #e74c3c;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+	color: #e74c3c;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 1px;
 }
 
 #footer .emergency-contact:hover {
-    color: white;
-    background-color: #e74c3c;
-    animation: pulse 1.5s infinite;
+	color: white;
+	background-color: #e74c3c;
+	animation: pulse 1.5s infinite;
 }
 
 /* Copyright text */
 #footer .copyright {
-    margin-top: 20px;
-    font-size: 0.8em;
-    color: #95a5a6;
+	margin-top: 20px;
+	font-size: 0.8em;
+	color: #95a5a6;
 }
 
 /* Social media icons section */
 #footer .social-media {
-    margin: 15px 0;
+	margin: 15px 0;
 }
 
 #footer .social-media a {
-    display: inline-block;
-    width: 36px;
-    height: 36px;
-    line-height: 36px;
-    background-color: #34495e;
-    color: white;
-    border-radius: 50%;
-    margin: 0 5px;
-    transition: all 0.3s ease;
+	display: inline-block;
+	width: 36px;
+	height: 36px;
+	line-height: 36px;
+	background-color: #34495e;
+	color: white;
+	border-radius: 50%;
+	margin: 0 5px;
+	transition: all 0.3s ease;
 }
 
 #footer .social-media a:hover {
-    background-color: #e74c3c;
-    transform: scale(1.1) translateY(-3px);
+	background-color: #e74c3c;
+	transform: scale(1.1) translateY(-3px);
 }
 
 /* Pulse animation for emergency elements */
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
+@
+keyframes pulse { 0% {
+	transform: scale(1);
 }
 
-@media (max-width: 768px) {
-    #footer ul {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    #footer li::after {
-        display: none;
-    }
+50
+%
+{
+transform
+:
+scale(
+1.05
+);
+}
+100
+%
+{
+transform
+:
+scale(
+1
+);
+}
+}
+@media ( max-width : 768px) {
+	#footer ul {
+		flex-direction: column;
+		gap: 10px;
+	}
+	#footer li::after {
+		display: none;
+	}
 }
