@@ -11,7 +11,32 @@
 .page-content.vehicle-content {
     padding: 30px 40px; /* Adjust overall padding if needed */
 }
-
+/* Basic style for validation error messages */
+        .validation-error {
+            color: #dc3545; /* Bootstrap danger color */
+            font-size: 0.85em;
+            margin-top: 4px;
+            display: block; /* Ensure it takes its own line */
+        }
+        .form-group input.invalid,
+        .form-group select.invalid,
+        .form-group textarea.invalid {
+            border-color: #dc3545;
+        }
+        
+        /* Basic style for validation error messages */
+        .validation-error {
+            color: #dc3545; /* Bootstrap danger color */
+            font-size: 0.85em;
+            margin-top: 4px;
+            display: block; /* Ensure it takes its own line */
+        }
+        /* Style for invalid input fields */
+        .form-group input.invalid,
+        .form-group select.invalid,
+        .form-group textarea.invalid {
+            border-color: #dc3545 !important; /* Force red border */
+        }
 /* --- General Card Style for Containers --- */
 .card-style {
      background-color: var(--card-bg, #ffffff);

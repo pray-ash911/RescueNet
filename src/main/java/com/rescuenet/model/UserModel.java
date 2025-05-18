@@ -3,138 +3,264 @@ package com.rescuenet.model;
 import java.time.LocalDateTime;
 
 /**
- * UserModel represents a user entity in the RescueNet application.
- * It maps to the USERS table in the database and contains user-related information.
+ * @author Prayash Rawal
+ */
+/**
+ * UserModel represents a user entity in the RescueNet application. It stores
+ * user details such as username, password hash, role, contact information,
+ * profile picture path, and account status for authentication and profile
+ * management.
  */
 public class UserModel {
 
-    private int userId;
-    private String username;
-    private String passwordHash;
-    private int roleId;
-    private String fullName;
-    private String email;
-    private String phoneNumber;
-    private LocalDateTime lastLogin;
-    private LocalDateTime createdAt;
-    private boolean isActive;
+	private int userId;
+	private String username;
+	private String passwordHash;
+	private int roleId;
+	private String fullName;
+	private String email;
+	private String phoneNumber;
+	private String profilePicturePath;
+	private LocalDateTime lastLogin;
+	private LocalDateTime createdAt;
+	private boolean isActive;
 
-    /**
-     * Default constructor for UserModel.
-     */
-    public UserModel() {
-    }
+	/**
+	 * Default constructor for UserModel.
+	 */
+	public UserModel() {
+	}
 
-    /**
-     * Constructor for login purposes.
-     * 
-     * @param username    the username of the user
-     * @param passwordHash the hashed password of the user
-     */
-    public UserModel(String username, String passwordHash) {
-        this.username = username;
-        this.passwordHash = passwordHash;
-    }
+	/**
+	 * Constructor for login purposes with username and password hash.
+	 *
+	 * @param username     the username of the user
+	 * @param passwordHash the hashed password of the user
+	 */
+	public UserModel(String username, String passwordHash) {
+		this.username = username;
+		this.passwordHash = passwordHash;
+	}
 
-    /**
-     * Constructor for registration purposes.
-     * 
-     * @param username     the username of the user
-     * @param passwordHash the hashed password of the user
-     * @param roleId       the role ID of the user
-     * @param fullName     the full name of the user
-     * @param email        the email address of the user
-     * @param phoneNumber  the phone number of the user
-     * @param isActive     the active status of the user
-     */
-    public UserModel(String username, String passwordHash, int roleId, String fullName, String email, String phoneNumber, boolean isActive) {
-        this.username = username;
-        this.passwordHash = passwordHash;
-        this.roleId = roleId;
-        this.fullName = fullName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.isActive = isActive;
-    }
+	/**
+	 * Constructor for user registration with all required fields.
+	 *
+	 * @param username           the username of the user
+	 * @param passwordHash       the hashed password of the user
+	 * @param roleId             the role ID of the user
+	 * @param fullName           the full name of the user
+	 * @param email              the email address of the user
+	 * @param phoneNumber        the phone number of the user
+	 * @param profilePicturePath the path to the user's profile picture
+	 * @param isActive           the active status of the user
+	 */
+	public UserModel(String username, String passwordHash, int roleId, String fullName, String email,
+			String phoneNumber, String profilePicturePath, boolean isActive) {
+		this.username = username;
+		this.passwordHash = passwordHash;
+		this.roleId = roleId;
+		this.fullName = fullName;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.profilePicturePath = profilePicturePath;
+		this.isActive = isActive;
+	}
 
-    // Getters and Setters
-    public int getUserId() {
-        return userId;
-    }
+	/**
+	 * Gets the user ID.
+	 *
+	 * @return the user ID
+	 */
+	public int getUserId() {
+		return userId;
+	}
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+	/**
+	 * Sets the user ID.
+	 *
+	 * @param userId the user ID to set
+	 */
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	/**
+	 * Gets the username.
+	 *
+	 * @return the username
+	 */
+	public String getUsername() {
+		return username;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	/**
+	 * Sets the username.
+	 *
+	 * @param username the username to set
+	 */
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public String getPasswordHash() {
-        return passwordHash;
-    }
+	/**
+	 * Gets the password hash.
+	 *
+	 * @return the password hash
+	 */
+	public String getPasswordHash() {
+		return passwordHash;
+	}
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
+	/**
+	 * Sets the password hash.
+	 *
+	 * @param passwordHash the password hash to set
+	 */
+	public void setPasswordHash(String passwordHash) {
+		this.passwordHash = passwordHash;
+	}
 
-    public int getRoleId() {
-        return roleId;
-    }
+	/**
+	 * Gets the role ID.
+	 *
+	 * @return the role ID
+	 */
+	public int getRoleId() {
+		return roleId;
+	}
 
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
-    }
+	/**
+	 * Sets the role ID.
+	 *
+	 * @param roleId the role ID to set
+	 */
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
+	}
 
-    public String getFullName() {
-        return fullName;
-    }
+	/**
+	 * Gets the full name.
+	 *
+	 * @return the full name
+	 */
+	public String getFullName() {
+		return fullName;
+	}
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
+	/**
+	 * Sets the full name.
+	 *
+	 * @param fullName the full name to set
+	 */
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	/**
+	 * Gets the email address.
+	 *
+	 * @return the email address
+	 */
+	public String getEmail() {
+		return email;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	/**
+	 * Sets the email address.
+	 *
+	 * @param email the email address to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
+	/**
+	 * Gets the phone number.
+	 *
+	 * @return the phone number
+	 */
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
+	/**
+	 * Sets the phone number.
+	 *
+	 * @param phoneNumber the phone number to set
+	 */
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
 
-    public LocalDateTime getLastLogin() {
-        return lastLogin;
-    }
+	/**
+	 * Gets the profile picture path.
+	 *
+	 * @return the profile picture path
+	 */
+	public String getProfilePicturePath() {
+		return profilePicturePath;
+	}
 
-    public void setLastLogin(LocalDateTime lastLogin) {
-        this.lastLogin = lastLogin;
-    }
+	/**
+	 * Sets the profile picture path.
+	 *
+	 * @param profilePicturePath the profile picture path to set
+	 */
+	public void setProfilePicturePath(String profilePicturePath) {
+		this.profilePicturePath = profilePicturePath;
+	}
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+	/**
+	 * Gets the last login time.
+	 *
+	 * @return the last login time
+	 */
+	public LocalDateTime getLastLogin() {
+		return lastLogin;
+	}
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+	/**
+	 * Sets the last login time.
+	 *
+	 * @param lastLogin the last login time to set
+	 */
+	public void setLastLogin(LocalDateTime lastLogin) {
+		this.lastLogin = lastLogin;
+	}
 
-    public boolean isActive() {
-        return isActive;
-    }
+	/**
+	 * Gets the account creation time.
+	 *
+	 * @return the account creation time
+	 */
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
 
-    public void setActive(boolean isActive) {
-        this.isActive = isActive;
-    }
+	/**
+	 * Sets the account creation time.
+	 *
+	 * @param createdAt the account creation time to set
+	 */
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	/**
+	 * Checks if the user account is active.
+	 *
+	 * @return true if the account is active, false otherwise
+	 */
+	public boolean isActive() {
+		return isActive;
+	}
+
+	/**
+	 * Sets the active status of the user account.
+	 *
+	 * @param isActive the active status to set
+	 */
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
 }

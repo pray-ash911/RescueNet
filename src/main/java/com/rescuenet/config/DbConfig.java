@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
+ * @author Prayash Rawal
+ */
+/**
  * DbConfig is a configuration class for managing database connections. It
  * handles the connection to a MySQL database using JDBC.
  */

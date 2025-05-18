@@ -2,17 +2,16 @@ package com.rescuenet.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.time.LocalDate; // Import LocalDate
-import java.time.format.DateTimeParseException; // Import exception
+import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.sql.SQLException;
 
 import com.rescuenet.model.ReservationModel;
 import com.rescuenet.model.UserModel;
-import com.rescuenet.model.VehicleModel; // Import VehicleModel
+import com.rescuenet.model.VehicleModel;
 import com.rescuenet.service.ReservationService;
-import com.rescuenet.util.CookiesUtil;
-import com.rescuenet.util.RedirectionUtil; // Keep if used, otherwise remove
-import com.rescuenet.util.ValidationUtil; // Keep if used, otherwise remove
-
+import com.rescuenet.util.SessionUtil;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,218 +19,299 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-// Update URL patterns if needed, keep base /reservations
-@WebServlet(asyncSupported = true, urlPatterns = { "/reservations", "/reservations/create", "/reservations/update", "/reservations/delete" })
+/**
+ * @author Prayash Rawal
+ */
+/**
+ * ReservationsController handles reservation management in the RescueNet
+ * application. It processes requests to view, create, update, and delete
+ * reservations for admin users, forwarding to the reservations JSP page or
+ * redirecting based on session and role checks.
+ */
+@WebServlet(asyncSupported = true, urlPatterns = { "/reservations", "/reservations/create", "/reservations/update",
+		"/reservations/delete" })
 public class ReservationsController extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-    private final ReservationService reservationService;
-    
-    public ReservationsController() {
-        this.reservationService = new ReservationService();
-        // this.validationUtil = new ValidationUtil();
-        // this.redirectionUtil = new RedirectionUtil();
-    }
+	private static final long serialVersionUID = 1L;
+	private ReservationService reservationService;
+	private static final String RESERVATIONS_JSP_PATH = "/WEB-INF/pages/reservations.jsp";
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String path = request.getServletPath();
-        System.out.println("ReservationsController: doGet called for path - " + path);
+	/**
+	 * Initializes the ReservationsController with an instance of
+	 * ReservationService.
+	 *
+	 * @throws ServletException if an error occurs during initialization
+	 */
+	@Override
+	public void init() throws ServletException {
+		this.reservationService = new ReservationService();
+	}
 
-        // --- Role Check (Keep as is) ---
-        String role = CookiesUtil.getCookie(request, "role") != null ? CookiesUtil.getCookie(request, "role").getValue() : null;
-        if (!"admin".equals(role)) {
-            System.out.println("ReservationsController: Non-admin user, redirecting to /home");
-            response.sendRedirect(request.getContextPath() + "/home");
-            return;
-        }
-        // --- End Role Check ---
+	/**
+	 * Handles GET requests for reservation management. Loads reservation data and
+	 * forwards to reservations.jsp, or redirects if unauthorized.
+	 *
+	 * @param request  the HttpServletRequest object
+	 * @param response the HttpServletResponse object
+	 * @throws ServletException if a servlet-specific error occurs
+	 * @throws IOException      if an I/O error occurs
+	 */
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String path = request.getServletPath();
+		System.out.println("ReservationsController: doGet called for path - " + path);
 
+		UserModel sessionUser = SessionUtil.getUser(request);
+		if (sessionUser == null || sessionUser.getRoleId() != 2) {
+			response.sendRedirect(request.getContextPath()
+					+ (sessionUser == null ? "/login?message=" + java.net.URLEncoder.encode("Please log in.", "UTF-8")
+							: "/home?error=" + java.net.URLEncoder.encode("Access Denied.", "UTF-8")));
+			return;
+		}
 
-        if (path.equals("/reservations")) {
-            // Load data for the main listing page and the form dropdowns
-            loadCommonData(request);
-            System.out.println("ReservationsController: Forwarding to reservations.jsp (main view)");
-            request.getRequestDispatcher("/WEB-INF/pages/reservations.jsp").forward(request, response);
+		String actionError = null;
 
-        } else if (path.equals("/reservations/update")) {
-             // Load data needed for the edit form
-            loadCommonData(request); // Load dropdown data
+		try {
+			if (path.equals("/reservations")) {
+				if (!loadCommonData(request)) {
+					actionError = reservationService.getLastErrorMessage() != null
+							? reservationService.getLastErrorMessage()
+							: "Error loading reservation data.";
+				}
+			} else if (path.equals("/reservations/update")) {
+				if (!loadCommonData(request)) {
+					actionError = reservationService.getLastErrorMessage() != null
+							? reservationService.getLastErrorMessage()
+							: "Error loading data for edit form.";
+				}
+				if (actionError == null) {
+					int reservationId;
+					try {
+						reservationId = Integer.parseInt(request.getParameter("id"));
+						ReservationModel reservation = reservationService.getReservationById(reservationId);
+						if (reservation == null) {
+							actionError = reservationService.getLastErrorMessage() != null
+									? reservationService.getLastErrorMessage()
+									: "Reservation not found for ID: " + reservationId;
+						} else {
+							request.setAttribute("reservation", reservation);
+						}
+					} catch (NumberFormatException | NullPointerException e) {
+						actionError = "Invalid or missing reservation ID for update.";
+					}
+				}
+			} else {
+				actionError = "Invalid page requested.";
+			}
+		} catch (SQLException e) {
+			System.err.println("ReservationsController (doGet): SQLException occurred - " + e.getMessage());
+			e.printStackTrace();
+			actionError = "A database error occurred. Please try again later.";
+		}
 
-            int reservationId;
-            try {
-                reservationId = Integer.parseInt(request.getParameter("id"));
-            } catch (NumberFormatException | NullPointerException e) {
-                 System.err.println("ReservationsController: Invalid or missing reservation ID for update.");
-                 response.sendRedirect(request.getContextPath() + "/reservations?error=Invalid+reservation+ID");
-                return;
-            }
+		if (actionError != null) {
+			handleError(actionError, request, response);
+		} else {
+			request.getRequestDispatcher(RESERVATIONS_JSP_PATH).forward(request, response);
+		}
+	}
 
-            // Fetch the specific reservation to edit
-            ReservationModel reservation = reservationService.getReservationById(reservationId);
+	/**
+	 * Loads common data (reservations, vehicles, users) for the reservations JSP.
+	 *
+	 * @param request the HttpServletRequest object
+	 * @return true if data is loaded successfully, false otherwise
+	 * @throws SQLException if a database error occurs
+	 */
+	private boolean loadCommonData(HttpServletRequest request) throws SQLException {
+		try {
+			List<ReservationModel> reservations = reservationService.getAllReservationsWithDetails();
+			request.setAttribute("reservations", reservations);
 
-            if (reservation != null) {
-                request.setAttribute("reservation", reservation); // Set the reservation object for the form
-                System.out.println("ReservationsController: Forwarding to reservations.jsp (edit mode)");
-                request.getRequestDispatcher("/WEB-INF/pages/reservations.jsp").forward(request, response);
-            } else {
-                 System.err.println("ReservationsController: Reservation not found for ID: " + reservationId);
-                response.sendRedirect(request.getContextPath() + "/reservations?error=Reservation+not+found");
-            }
-        } else {
-            System.out.println("ReservationsController: Unhandled GET path - " + path);
-            response.sendRedirect(request.getContextPath() + "/reservations?error=Invalid+path");
-        }
-    }
+			List<VehicleModel> availableVehicles = reservationService.getAvailableVehiclesForDropdown();
+			request.setAttribute("availableVehicles", availableVehicles);
 
-    // Helper method to load data needed by the JSP (main list and form)
-    private void loadCommonData(HttpServletRequest request) {
-        List<ReservationModel> reservations = reservationService.getAllReservationsWithDetails();
-        request.setAttribute("reservations", reservations);
+			List<UserModel> users = reservationService.getAllUsers();
+			request.setAttribute("users", users);
+			return true; // Success
+		} catch (SQLException e) {
+			System.err.println("ReservationsController (loadCommonData): SQLException - " + e.getMessage());
+			e.printStackTrace();
+			return false; // Indicate failure
+		}
+	}
 
-        List<VehicleModel> availableVehicles = reservationService.getAvailableVehiclesForDropdown();
-        List<UserModel> users = reservationService.getAllUsers();
-        request.setAttribute("availableVehicles", availableVehicles);
-        request.setAttribute("users", users);
-    }
+	/**
+	 * Handles POST requests for creating, updating, or deleting reservations.
+	 * Processes form submissions and redirects or forwards based on operation
+	 * success.
+	 *
+	 * @param request  the HttpServletRequest object
+	 * @param response the HttpServletResponse object
+	 * @throws ServletException if a servlet-specific error occurs
+	 * @throws IOException      if an I/O error occurs
+	 */
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String path = request.getServletPath();
+		System.out.println("ReservationsController: doPost called for path - " + path);
 
+		UserModel sessionUser = SessionUtil.getUser(request);
+		if (sessionUser == null || sessionUser.getRoleId() != 2) {
+			response.sendRedirect(request.getContextPath() + "/login?message="
+					+ java.net.URLEncoder.encode("Unauthorized action.", "UTF-8"));
+			return;
+		}
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String path = request.getServletPath();
-        System.out.println("ReservationsController: doPost called for path - " + path);
+		String redirectPath = request.getContextPath() + "/reservations";
+		String successMessage = null;
+		String errorMessage = null; // For redirect errors
 
-        // --- Role Check (Keep as is) ---
-        String role = CookiesUtil.getCookie(request, "role") != null ? CookiesUtil.getCookie(request, "role").getValue() : null;
-        if (!"admin".equals(role)) {
-            System.out.println("ReservationsController: Non-admin user, redirecting to /home");
-            response.sendRedirect(request.getContextPath() + "/home");
-            return;
-        }
-        // --- End Role Check ---
+		try {
+			if (path.equals("/reservations/create") || path.equals("/reservations/update")) {
+				boolean isUpdate = path.equals("/reservations/update");
+				request.setAttribute("submittedVehicleId", request.getParameter("vehicleId"));
+				request.setAttribute("submittedUserId", request.getParameter("userId"));
+				request.setAttribute("submittedReservationDate", request.getParameter("reservationDate"));
+				request.setAttribute("submittedStatus", request.getParameter("status"));
+				if (isUpdate)
+					request.setAttribute("submittedReservationId", request.getParameter("reservationId"));
 
+				String vehicleIdStr = request.getParameter("vehicleId");
+				String userIdStr = request.getParameter("userId");
+				String reservationDateStr = request.getParameter("reservationDate");
+				String status = request.getParameter("status");
 
-        if (path.equals("/reservations/create") || path.equals("/reservations/update")) {
-            // Handle both Create and Update
-            boolean isUpdate = path.equals("/reservations/update");
+				if (vehicleIdStr == null || vehicleIdStr.trim().isEmpty() || userIdStr == null
+						|| userIdStr.trim().isEmpty() || reservationDateStr == null
+						|| reservationDateStr.trim().isEmpty() || status == null || status.trim().isEmpty()) {
+					handleError("Vehicle, User, Reservation Date, and Status are required!", request, response);
+					return;
+				}
 
-            // Get common parameters
-            String vehicleIdStr = request.getParameter("vehicleId");
-            String userIdStr = request.getParameter("userId");
-            String reservationDateStr = request.getParameter("reservationDate");
-            String status = request.getParameter("status");
+				int vehicleId;
+				int userId;
+				LocalDate reservationDate;
+				ReservationModel reservation = new ReservationModel();
+				try {
+					vehicleId = Integer.parseInt(vehicleIdStr);
+					userId = Integer.parseInt(userIdStr);
+					reservationDate = LocalDate.parse(reservationDateStr);
+				} catch (NumberFormatException e) {
+					handleError("Invalid Vehicle or User ID format!", request, response);
+					return;
+				} catch (DateTimeParseException e) {
+					handleError("Invalid Reservation Date format. Use YYYY-MM-DD.", request, response);
+					return;
+				}
 
-            // --- Basic Validation ---
-            if (vehicleIdStr == null || vehicleIdStr.trim().isEmpty() ||
-                userIdStr == null || userIdStr.trim().isEmpty() ||
-                reservationDateStr == null || reservationDateStr.trim().isEmpty() ||
-                status == null || status.trim().isEmpty()) {
-                 handleError("Vehicle, User, Reservation Date, and Status are required!", request, response);
-                 return;
-            }
+				reservation.setVehicleId(vehicleId);
+				reservation.setUserId(userId);
+				reservation.setReservationDate(reservationDate);
+				reservation.setStatus(status);
 
-            int vehicleId;
-            int userId;
-            LocalDate reservationDate;
-            ReservationModel reservation = new ReservationModel();
+				boolean operationSuccess = false;
 
-            try {
-                vehicleId = Integer.parseInt(vehicleIdStr);
-                userId = Integer.parseInt(userIdStr);
-                reservationDate = LocalDate.parse(reservationDateStr); // Assumes YYYY-MM-DD
-            } catch (NumberFormatException e) {
-                handleError("Invalid Vehicle or User ID format!", request, response);
-                return;
-            } catch (DateTimeParseException e) {
-                handleError("Invalid Reservation Date format. Use YYYY-MM-DD.", request, response);
-                return;
-            }
+				if (isUpdate) {
+					String reservationIdStr = request.getParameter("reservationId");
+					if (reservationIdStr == null || reservationIdStr.trim().isEmpty()) {
+						handleError("Reservation ID missing for update!", request, response);
+						return;
+					}
+					try {
+						reservation.setReservationId(Integer.parseInt(reservationIdStr));
+					} catch (NumberFormatException e) {
+						handleError("Invalid Reservation ID format for update!", request, response);
+						return;
+					}
+					operationSuccess = reservationService.updateReservation(reservation);
+					if (operationSuccess)
+						successMessage = "Reservation updated successfully";
+					else
+						errorMessage = reservationService.getLastErrorMessage() != null
+								? reservationService.getLastErrorMessage()
+								: "Failed to update reservation.";
+				} else { // Create
+					operationSuccess = reservationService.createReservation(reservation);
+					if (operationSuccess)
+						successMessage = "Reservation created successfully";
+					else
+						errorMessage = reservationService.getLastErrorMessage() != null
+								? reservationService.getLastErrorMessage()
+								: "Failed to create reservation.";
+				}
 
-            // Populate model
-            reservation.setVehicleId(vehicleId);
-            reservation.setUserId(userId);
-            reservation.setReservationDate(reservationDate);
-            reservation.setStatus(status);
+				if (operationSuccess) {
+					response.sendRedirect(
+							redirectPath + "?success=" + java.net.URLEncoder.encode(successMessage, "UTF-8"));
+				} else {
+					handleError(errorMessage, request, response); // Forward with error
+				}
+				return;
 
-            boolean success = false;
-            String successMessage = "";
-            String failureMessage = "";
+			} else if (path.equals("/reservations/delete")) {
+				String reservationIdStr = request.getParameter("reservationId");
+				if (reservationIdStr == null || reservationIdStr.trim().isEmpty()) {
+					response.sendRedirect(redirectPath + "?error=Invalid+ID+for+delete");
+					return;
+				}
+				int reservationId;
+				try {
+					reservationId = Integer.parseInt(reservationIdStr);
+				} catch (NumberFormatException e) {
+					response.sendRedirect(redirectPath + "?error=Invalid+ID+format+for+delete");
+					return;
+				}
 
-            if (isUpdate) {
-                String reservationIdStr = request.getParameter("reservationId");
-                 if (reservationIdStr == null || reservationIdStr.trim().isEmpty()) {
-                    handleError("Reservation ID is missing for update!", request, response);
-                    return;
-                 }
-                 try {
-                     reservation.setReservationId(Integer.parseInt(reservationIdStr));
-                 } catch (NumberFormatException e) {
-                     handleError("Invalid Reservation ID format for update!", request, response);
-                     return;
-                 }
-                 System.out.println("ReservationsController: Attempting to update reservation ID: " + reservation.getReservationId());
-                 success = reservationService.updateReservation(reservation);
-                 successMessage = "Reservation updated successfully";
-                 failureMessage = "Failed to update reservation. Check logs and vehicle availability.";
+				boolean success = reservationService.deleteReservation(reservationId);
+				if (success) {
+					response.sendRedirect(redirectPath + "?success=Reservation+deleted+successfully");
+				} else {
+					errorMessage = reservationService.getLastErrorMessage() != null
+							? reservationService.getLastErrorMessage()
+							: "Failed to delete reservation.";
+					response.sendRedirect(redirectPath + "?error=" + java.net.URLEncoder.encode(errorMessage, "UTF-8"));
+				}
+				return;
+			}
+			// If path not matched
+			response.sendRedirect(redirectPath + "?error=Invalid+Action");
 
-            } else { // Create
-                System.out.println("ReservationsController: Attempting to create new reservation.");
-                 success = reservationService.createReservation(reservation);
-                 successMessage = "Reservation created successfully";
-                 failureMessage = "Failed to create reservation. Check logs and vehicle availability.";
-            }
+		} catch (SQLException e) {
+			System.err.println("ReservationsController (doPost): SQLException occurred - " + e.getMessage());
+			e.printStackTrace();
+			handleError("A database error occurred: " + e.getMessage(), request, response);
+		} catch (Exception e) {
+			System.err.println("ReservationsController (doPost): Unexpected error - " + e.getMessage());
+			e.printStackTrace();
+			handleError("An unexpected error occurred. Please try again.", request, response);
+		}
+	}
 
-            // Redirect based on success/failure
-            if (success) {
-                response.sendRedirect(request.getContextPath() + "/reservations?success=" + java.net.URLEncoder.encode(successMessage, "UTF-8"));
-            } else {
-                String errorMessage = reservationService.getLastErrorMessage() != null ? reservationService.getLastErrorMessage() : failureMessage;
-                // Redirect back to the main page with error
-                 response.sendRedirect(request.getContextPath() + "/reservations?error=" + java.net.URLEncoder.encode(errorMessage, "UTF-8"));
-                 // Alternatively, forward back to the form with error and retain data (more complex)
-                 // handleError(errorMessage, request, response);
-            }
-
-        } else if (path.equals("/reservations/delete")) {
-            String reservationIdStr = request.getParameter("reservationId"); // Get ID from form
-
-            if (reservationIdStr == null || reservationIdStr.trim().isEmpty()) {
-                response.sendRedirect(request.getContextPath() + "/reservations?error=Invalid+Reservation+ID+for+delete");
-                return;
-            }
-
-            int reservationId;
-            try {
-                reservationId = Integer.parseInt(reservationIdStr);
-            } catch (NumberFormatException e) {
-                response.sendRedirect(request.getContextPath() + "/reservations?error=Invalid+Reservation+ID+format+for+delete");
-                return;
-            }
-
-            System.out.println("ReservationsController: Deleting reservation with ID - " + reservationId);
-            boolean success = reservationService.deleteReservation(reservationId);
-            if (success) {
-                response.sendRedirect(request.getContextPath() + "/reservations?success=Reservation+deleted+successfully");
-            } else {
-                String errorMessage = reservationService.getLastErrorMessage() != null ? reservationService.getLastErrorMessage() : "Failed to delete reservation";
-                response.sendRedirect(request.getContextPath() + "/reservations?error=" + java.net.URLEncoder.encode(errorMessage, "UTF-8"));
-            }
-        } else {
-            System.out.println("ReservationsController: Unhandled POST path - " + path);
-            response.sendRedirect(request.getContextPath() + "/reservations?error=Invalid+Action");
-        }
-    }
-
-     // Helper method to handle errors - forwards back to the JSP
-     private void handleError(String errorMessage, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-         System.err.println("ReservationsController Error: " + errorMessage);
-         request.setAttribute("error", errorMessage);
-         // Reload data needed for the form dropdowns before forwarding
-         loadCommonData(request);
-         request.getRequestDispatcher("/WEB-INF/pages/reservations.jsp").forward(request, response);
-     }
-
-    // Removed date validation methods as basic parsing is done inline
-
+	/**
+	 * Handles errors by setting an error message and forwarding to
+	 * reservations.jsp.
+	 *
+	 * @param errorMessage the error message to display
+	 * @param request      the HttpServletRequest object
+	 * @param response     the HttpServletResponse object
+	 * @throws ServletException if a servlet-specific error occurs
+	 * @throws IOException      if an I/O error occurs
+	 */
+	private void handleError(String errorMessage, HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		System.err.println("ReservationsController Error: " + errorMessage);
+		request.setAttribute("error", errorMessage); // JSP checks for ${requestScope.error} or ${param.error}
+		try {
+			loadCommonData(request); // Attempt to reload data for dropdowns
+		} catch (Exception e) {
+			System.err.println(
+					"ReservationsController (handleError): Failed to reload common data. Error was: " + e.getMessage());
+			request.setAttribute("error",
+					(request.getAttribute("error") != null ? request.getAttribute("error") + " Additionally, " : "")
+							+ "could not fully load form data due to a subsequent error.");
+		}
+		request.getRequestDispatcher(RESERVATIONS_JSP_PATH).forward(request, response);
+	}
 }

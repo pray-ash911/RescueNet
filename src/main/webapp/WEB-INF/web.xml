@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  Author: Prayash Rawal
+  Purpose: Configures the RescueNet web application, defining the welcome file and servlet
+           mappings for handling static resources such as CSS, images, and uploaded files.
+-->
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://jakarta.ee/xml/ns/jakartaee"
     xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
@@ -6,22 +11,14 @@
     <display-name>RescueNet</display-name>
 
     <welcome-file-list>
-        <!-- Define 'home' as the welcome file if HomeController handles the root -->
         <welcome-file>home</welcome-file>
-        <!-- Or point to a static file like index.jsp if preferred -->
-        <!-- <welcome-file>index.jsp</welcome-file> -->
     </welcome-file-list>
 
-    <!-- Mapping for the default servlet to handle static resources -->
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>/css/*</url-pattern>
         <url-pattern>/resources/*</url-pattern>
-        <!-- *** ADD THIS LINE *** -->
-        <url-pattern>/uploads/*</url-pattern>
-        <!-- ********************* -->
+        <url-pattern>/Uploads/*</url-pattern>
     </servlet-mapping>
-
-    <!-- Your other servlet mappings, filters, etc. -->
 
 </web-app>

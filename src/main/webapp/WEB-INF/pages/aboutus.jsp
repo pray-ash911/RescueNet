@@ -3,17 +3,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- About Us Page for RescueNet -->
+<!-- Displays information about the RescueNet platform, its mission, features, and team -->
+<!-- @author Prayash Rawal -->
+
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>About Us - RescueNet</title>
+
 <!-- Favicon -->
 <link rel="icon"
 	href="${pageContext.request.contextPath}/resources/images/system/favicon.ico"
 	type="image/x-icon">
-<!-- Font Awesome -->
+
+<!-- External Styles and Icons -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<!-- CSS -->
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/header.css" />
 <link rel="stylesheet" type="text/css"
@@ -22,9 +27,12 @@
 	href="${pageContext.request.contextPath}/css/aboutus.css" />
 </head>
 <body>
+	<!-- Header Section -->
 	<jsp:include page="header.jsp" />
 
+	<!-- Main Content -->
 	<main class="about-container">
+		<!-- Hero Banner -->
 		<section class="hero-banner">
 			<div class="hero-content">
 				<h1>About RescueNet</h1>
@@ -33,6 +41,7 @@
 			</div>
 		</section>
 
+		<!-- Mission Section -->
 		<section class="mission-section">
 			<div class="section-content">
 				<h2>
@@ -63,6 +72,7 @@
 			</div>
 		</section>
 
+		<!-- Features Section -->
 		<section class="features-section">
 			<h2>
 				<i class="fas fa-lightbulb"></i> Why We Built RescueNet
@@ -101,6 +111,7 @@
 			</div>
 		</section>
 
+		<!-- Team Section -->
 		<section class="team-section">
 			<h2>
 				<i class="fas fa-users"></i> Our Team
@@ -127,6 +138,7 @@
 			</div>
 		</section>
 
+		<!-- Features Highlight Section -->
 		<section class="features-highlight">
 			<h2>
 				<i class="fas fa-star"></i> Key Features
@@ -167,9 +179,7 @@
 		</section>
 	</main>
 
+	<!-- Footer Section -->
 	<jsp:include page="footer.jsp" />
-
-	<!-- JavaScript -->
-	<script src="${pageContext.request.contextPath}/js/animations.js"></script>
 </body>
 </html>

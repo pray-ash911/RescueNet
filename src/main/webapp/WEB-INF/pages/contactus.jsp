@@ -3,14 +3,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Contact Us Page for RescueNet -->
+<!-- Provides emergency contact details and a form for user inquiries -->
+<!-- @author Prayash Rawal -->
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RescueNet - Contact Us</title>
-<!-- Favicon -->
-<link rel="icon"
-	href="${pageContext.request.contextPath}/resources/images/system/favicon.ico"
-	type="image/x-icon">
-<!-- CSS -->
+
+<!-- External Styles and Icons -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link rel="stylesheet"
@@ -21,9 +22,12 @@
 	href="${pageContext.request.contextPath}/css/contactus.css">
 </head>
 <body>
+	<!-- Header Section -->
 	<jsp:include page="header.jsp" />
 
+	<!-- Main Content -->
 	<main class="main-content">
+		<!-- Hero Banner -->
 		<section class="hero-banner">
 			<div class="hero-content">
 				<h1>Emergency Contact</h1>
@@ -34,6 +38,7 @@
 			</div>
 		</section>
 
+		<!-- Contact Section -->
 		<section class="contact-container">
 			<!-- Contact Information -->
 			<div class="contact-details">
@@ -53,7 +58,7 @@
 				</div>
 				<div class="social-links">
 					<a href="#"><i class="fab fa-facebook-f"></i></a> <a href="#"><i
-						class="fab fa-twitter"></i></a> <a href="#"><i
+						class="fab fa-twittezr"></i></a> <a href="#"><i
 						class="fab fa-instagram"></i></a> <a href="#"><i
 						class="fab fa-linkedin-in"></i></a>
 				</div>
@@ -96,9 +101,10 @@
 		</section>
 	</main>
 
+	<!-- Footer Section -->
 	<jsp:include page="footer.jsp" />
 
-	<!-- JavaScript for enhanced functionality -->
+	<!-- JavaScript for Form Validation -->
 	<script
 		src="${pageContext.request.contextPath}/js/contact-form-validation.js"></script>
 </body>

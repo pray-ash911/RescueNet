@@ -54,6 +54,8 @@ body:after {
 
 /* Login container */
 .login-container {
+	display: flex; 
+    flex-direction: column;
 	background-color: white; /* Changed to solid white */
 	border-radius: 20px;
 	padding: 40px;

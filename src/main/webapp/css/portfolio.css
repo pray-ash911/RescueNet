@@ -1,233 +1,501 @@
-/* General Styles */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+
+:root {
+    /* Color System */
+    --color-primary: #3498db;
+    --color-primary-dark: #2980b9;
+    --color-success: #2ecc71;
+    --color-success-dark: #27ae60;
+    --color-secondary: #6c757d;
+    --color-secondary-dark: #5a6268;
+    --color-error: #e53e3e;
+    --color-error-dark: #c53030;
+    
+    /* Background Colors */
+    --bg-page: #f5f7fa;
+    --bg-card: #ffffff;
+    --bg-error: #fde8e8;
+    --bg-success: #e6f7ef;
+    
+    /* Text Colors */
+    --text-primary: #2d3748;
+    --text-secondary: #4a5568;
+    --text-heading: #2c3e50;
+    --text-error: var(--color-error-dark);
+    --text-success: #2f855a;
+    
+    /* Border Colors */
+    --border-default: #e2e8f0;
+    --border-input: #cbd5e0;
+    --border-error: var(--color-error);
+    --border-success: #38a169;
+    
+    /* Effects */
+    --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-focus: 0 0 0 3px rgba(52, 152, 219, 0.25);
+    
+    /* Spacing (for consistent margins/padding) */
+    --space-xs: 5px;
+    --space-sm: 10px;
+    --space-md: 15px;
+    --space-lg: 25px;
+    --space-xl: 30px;
+    
+    /* Border Radius */
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-circle: 50%;
+    
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+}
+
+/* --- 2. Reset & Base Styles --- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, 
+body {
+    height: 100%;
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.6;
-  background-color: #f5f7fa;
-  color: #333;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
 }
 
+/* --- 3. Layout & Container Styles --- */
 .main-container {
-  max-width: 1200px;
-  width: 100%;
-  margin: 30px auto;
-  padding: 0 20px;
-  flex: 1;
+    max-width: 800px;
+    width: 95%;
+    margin: var(--space-xl) auto;
+    padding: 0 var(--space-md);
+    flex: 1 0 auto;
 }
 
-/* Page Title */
-.page-title {
-  font-size: 2.2rem;
-  color: #2c3e50;
-  margin-bottom: 30px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #e1e5eb;
-  font-weight: 600;
-}
-
-/* Section Styling */
 .profile-section {
-  margin-bottom: 60px;
+    background-color: var(--bg-card);
+    border-radius: var(--radius-md);
+    padding: var(--space-xl) 35px;
+    box-shadow: var(--shadow-card);
+    margin-bottom: var(--space-xl);
+}
+
+/* --- 4. Typography --- */
+.page-title {
+    font-size: 2.2rem;
+    color: var(--text-heading);
+    margin-bottom: var(--space-xl);
+    text-align: center;
+    font-weight: 600;
 }
 
 .section-title {
-  font-size: 1.8rem;
-  color: #3498db;
-  margin-bottom: 25px;
-  font-weight: 500;
+    font-size: 1.6rem;
+    color: var(--color-primary);
+    margin-top: 0;
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--border-default);
+    font-weight: 500;
 }
 
-/* Message Styles */
-.message {
-  padding: 12px 20px;
-  margin-bottom: 20px;
-  border-radius: 6px;
-  font-weight: 500;
+/* --- 5. Profile Section Components --- */
+/* Profile Picture */
+.profile-picture {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: var(--space-lg);
 }
 
-.error-message {
-  background-color: #fde8e8;
-  color: #e53e3e;
-  border-left: 4px solid #e53e3e;
+.profile-picture__container {
+    width: 150px;
+    height: 150px;
+    border-radius: var(--radius-circle);
+    overflow: hidden;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    background-color: var(--border-default);
 }
 
-.success-message {
-  background-color: #e6f7ef;
-  color: #38a169;
-  border-left: 4px solid #38a169;
+.profile-picture__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-/* Profile Card - ENLARGED */
-.profile-card {
-  background-color: white;
-  border-radius: 8px;
-  padding: 40px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  margin-bottom: 40px;
-  width: 100%;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+.profile-picture__placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #adb5bd;
+    font-size: 4em;
 }
 
-/* Profile Details */
+/* View Mode */
 .profile-details {
-  margin-bottom: 30px;
+    margin-bottom: var(--space-xl);
 }
 
 .profile-item {
-  margin-bottom: 20px;
-  padding-bottom: 18px;
-  border-bottom: 1px solid #edf2f7;
-  display: flex;
-  flex-wrap: wrap;
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--border-default);
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    align-items: baseline;
+    gap: var(--space-sm);
+    font-size: 1.05rem;
 }
 
 .profile-item:last-child {
-  border-bottom: none;
+    border-bottom: none;
+    margin-bottom: 0;
 }
 
-.detail-label {
-  font-weight: 600;
-  color: #4a5568;
-  display: inline-block;
-  width: 180px;
-  font-size: 1.05rem;
+.profile-item__label {
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: right;
+    padding-right: var(--space-md);
 }
 
-.detail-value {
-  color: #2d3748;
-  font-size: 1.05rem;
-  flex: 1;
+.profile-item__value {
+    color: var(--text-primary);
+    word-break: break-word;
 }
 
-/* Form Styling */
+/* Message Components */
+.message {
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    border-left-width: 4px;
+    border-left-style: solid;
+    font-size: 0.95em;
+}
+/* Styles from previous portfolio.css, plus profile picture */
+        .profile-picture-container { width: 150px; height: 150px; border-radius: 50%; overflow: hidden; margin: 0 auto 25px auto; border: 4px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.15); background-color: #e9ecef; }
+        .profile-picture-container img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-picture-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #adb5bd; font-size: 4em; }
+        .message ul { list-style-type: none; padding-left: 0; margin:0; }
+        .message li { margin-bottom: 3px; }
+        .validation-error { color: #FF0000; font-size: 0.85em; margin-top: 4px; display: block; }
+        #edit-mode .form-group input.invalid { border-color: #FF0000 !important; }
+        .image-preview-container-edit { margin-top: 10px; text-align: center; }
+        #newProfilePicturePreview { max-width: 120px; max-height: 120px; border: 1px solid #ddd; border-radius: 50%; object-fit: cover; display: none; margin: 10px auto 0 auto; }
+
+.message ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.message li {
+    margin-bottom: 3px;
+}
+
+:root {
+    --bg-error: #ffcccc;    /* Light red background */
+    --text-error: #ff0000;  /* Bright red text */
+    --border-error: #ff3333; /* Medium red border */
+}
+
+.message--error {
+    background-color: var(--bg-error);
+    color: var(--text-error);
+    border-left-color: var(--border-error);
+}
+
+.message--success {
+    background-color: var(--bg-success);
+    color: var(--text-success);
+    border-left-color: var(--border-success);
+}
+/* --- 6. Form Components --- */
 .form-group {
-  margin-bottom: 25px;
+    margin-bottom: 22px;
 }
 
-.form-group label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 10px;
-  color: #4a5568;
-  font-size: 1.05rem;
+.form-group__label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+    font-size: 1rem;
 }
 
-.form-group input {
-  width: 100%;
-  padding: 14px 18px;
-  border: 1px solid #cbd5e0;
-  border-radius: 6px;
-  font-size: 1.05rem;
-  transition: border-color 0.3s ease;
+.form-group__input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-input);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    color: var(--text-primary);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
-.form-group input:focus {
-  outline: none;
-  border-color: #3498db;
-  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+.form-group__input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-focus);
 }
 
-.form-group input::placeholder {
-  color: #a0aec0;
+.form-group__input::placeholder {
+    color: #a0aec0;
 }
 
-/* Button Styles */
-.btn {
-  display: inline-block;
-  padding: 12px 24px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  border: none;
+.form-group__input--invalid {
+    border-color: var(--border-error) !important;
 }
 
-.btn-primary {
-  background-color: #3498db;
-  color: white;
+.form-group__error {
+    color: var(--text-error);
+    font-size: 0.875em;
+    margin-top: 5px;
+    display: block;
 }
 
-.btn-primary:hover {
-  background-color: #2980b9;
+/* Image Preview */
+.image-preview {
+    margin-top: var(--space-sm);
+    text-align: center;
+    padding: var(--space-sm);
+    border: 1px dashed var(--border-input);
+    border-radius: var(--radius-sm);
+    background-color: #f9fafb;
+    min-height: 50px;
 }
 
-.btn-success {
-  background-color: #2ecc71;
-  color: white;
+.image-preview__img {
+    max-width: 120px;
+    max-height: 120px;
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-circle);
+    object-fit: cover;
+    display: none;
+    margin: var(--space-sm) auto 0;
 }
 
-.btn-success:hover {
-  background-color: #27ae60;
-}
-
-.btn-secondary {
-  background-color: #e2e8f0;
-  color: #4a5568;
-}
-
-.btn-secondary:hover {
-  background-color: #cbd5e0;
-}
-
+/* Form Actions */
 .form-actions {
-  display: flex;
-  gap: 15px;
-  margin-top: 30px;
+    display: flex;
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
+    padding-top: 20px;
+    border-top: 1px solid var(--border-default);
+    justify-content: flex-end;
 }
 
-/* Footer Positioning */
-footer {
-  margin-top: auto;
-  width: 100%;
+/* --- 7. Buttons --- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background-color var(--transition-fast), 
+                color var(--transition-fast), 
+                transform 0.1s ease;
+    border: none;
+    text-decoration: none;
+    white-space: nowrap;
+    line-height: 1.5;
 }
 
-/* Responsive Adjustments */
+.btn:hover {
+    opacity: 0.9;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn i {
+    margin-right: 8px;
+}
+
+.btn--primary {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.btn--primary:hover {
+    background-color: var(--color-primary-dark);
+}
+
+.btn--success {
+    background-color: var(--color-success);
+    color: white;
+}
+
+.btn--success:hover {
+    background-color: var(--color-success-dark);
+}
+
+.btn--secondary {
+    background-color: var(--color-secondary);
+    color: white;
+    border: 1px solid #cbd5e0;
+}
+
+.btn--secondary:hover {
+    background-color: var(--color-secondary-dark);
+}
+
+/* --- 8. Utility Classes --- */
+.text-center {
+    text-align: center;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.mt-auto {
+    margin-top: auto;
+}
+
+/* --- 9. Media Queries --- */
 @media (max-width: 768px) {
-  .page-title {
-    font-size: 1.8rem;
-  }
-  
-  .profile-card {
-    padding: 25px;
-  }
-  
-  .detail-label {
-    width: 140px;
-  }
+    .main-container {
+        width: 95%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .page-title {
+        font-size: 1.8rem;
+    }
+    
+    .profile-section {
+        padding: 25px 20px;
+    }
+    
+    .section-title {
+        font-size: 1.4rem;
+    }
+
+    .profile-item {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+    
+    .profile-item__label {
+        text-align: left;
+        width: auto;
+        margin-bottom: 3px;
+        font-size: 0.95rem;
+    }
+    
+    .profile-item__value {
+        font-size: 0.95rem;
+    }
+
+    .btn {
+        padding: 10px 18px;
+        font-size: 0.95rem;
+    }
+    
+    .view-mode .btn--primary {
+        display: block;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .form-group__label, 
+    .form-group__input {
+        font-size: 0.95rem;
+    }
+    
+    .form-group__input {
+        padding: 10px 14px;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .form-actions .btn {
+        width: 100%;
+    }
 }
 
 @media (max-width: 480px) {
-  .page-title {
-    font-size: 1.6rem;
-  }
-  
-  .section-title {
-    font-size: 1.4rem;
-  }
-  
-  .detail-label {
-    width: 100%;
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  .form-actions {
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .btn {
-    width: 100%;
-  }
+    .main-container {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        padding: 0 10px;
+    }
+    
+    .profile-section {
+        padding: 20px 15px;
+    }
+    
+    .page-title {
+        font-size: 1.6rem;
+    }
+    
+    .section-title {
+        font-size: 1.3rem;
+    }
+    
+    .profile-picture__container {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .profile-picture__placeholder {
+        font-size: 3em;
+    }
+}
+
+/* --- 10. Print Styles --- */
+@media print {
+    body {
+        background-color: white;
+        color: black;
+    }
+    
+    .main-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .profile-section {
+        box-shadow: none;
+        border: 1px solid #ddd;
+        break-inside: avoid;
+    }
+    
+    .btn,
+    .form-actions {
+        display: none !important;
+    }
+    
+    .page-title {
+        font-size: 1.8rem;
+    }
+
+    .profile-item {
+        page-break-inside: avoid;
+    }
 }

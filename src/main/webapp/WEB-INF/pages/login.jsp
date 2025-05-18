@@ -1,3 +1,9 @@
+<%-- 
+  @author Prayash Rawal
+  Purpose: Displays the login page for the RescueNet application, allowing users to
+           enter their username and password, view error/success messages, and access
+           links for password recovery and registration.
+--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -35,7 +41,7 @@
 		<form action="${pageContext.request.contextPath}/login" method="POST">
 			<div class="form-group">
 				<label for="username">Username</label> <input type="text"
-					id="username" name="username" placeholder="username@gmail.com"
+					id="username" name="username" placeholder=""
 					maxlength="50" required>
 			</div>
 
